@@ -119,12 +119,19 @@ int similar(char* s, char* t, int n)
 void print_lines(char* str)
 {
     char line[LINE];
-
+	int flag=0;
     while (getLine(line) != 0)
     {
         if (substring(line, str))
         {
+			if(flag)
+			{
+				printf("\n");
+			}
+			
+			line[strcspn(line, "\n")] = 0;
             printf("%s", line);
+			flag = 1;
         }
     }
 }
@@ -132,12 +139,19 @@ void print_lines(char* str)
 void print_similar_words(char* str)
 {
     char word[WORD];
-
+	int flag=0;
     while (getWord(word) != 0)
     {
         if (similar(str, word,1))
         {
+			if(flag)
+			{
+				printf("\n");
+			}
+			
+			word[strcspn(word, "\n")] = 0;
             printf("%s", word);
+			flag = 1;
         }
     }
 

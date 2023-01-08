@@ -2,13 +2,17 @@ CC=gcc
 FLAGS = -Wall -g
 INSORT=isort.o
 TXT_FIND=txtfind.o
-all: isort.o txtfind.o isort.c txtfind.c
 
-isort.o: isort.c
-	$(CC) $(FLAGS) -c isort.c
+all: isort txtfind
 
-txtfind.o: txtfind.c
-	$(CC) $(FLAGS) -c txtfind.c
+isort: isort.o
+	$(CC) $(FLAGS) $^ -o $@
+	
+txtfind: txtfind.o
+	$(CC) $(FLAGS) $^ -o $@
+
+%.o: %.c
+	$(CC) $(FLAGS) -c $<
 
 
 .PHONY: all clean
