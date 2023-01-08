@@ -20,10 +20,13 @@ int main()
     getWord(input);
 
     scanf("%c\n",&choise);
+	
+	//printf("test::::::::::%c\n",choise);
 
     if (choise == 'a')
     {
         print_lines(input);
+		//printf("test:::::::::END\n");
     }
     else if (choise == 'b')
     {
@@ -35,47 +38,60 @@ int main()
 
 int getLine(char s[])
 {
+	int i = 0;
+	for(i=0; i<LINE; i++)
+	{
+		if(scanf("%c",&s[i]))
+		{
+			//printf("test::::::::::%s\n",s);
+			if(s[i] == '\n')
+			{
+				s[i]='\0';
+				break;
+			}
+		}
+	}
 
-    int numOfLetters = 0;
-    int index = 0;
-    size_t len = LINE;
-    getline(&s, &len , stdin);
-
-    while (s[index] != '\n')
-    {
-        index++;
-        numOfLetters++;
-    }
-
-
-
-    return numOfLetters;
+	if(i == LINE)
+	{
+		s[LINE-1] = '\0';
+	}
+	
+	
+	//printf("test::::::::::%sEND_OF_LINE\n",s);
+	return i;
 }
 
 int getWord(char w[])
 {
-    int numOfLetters = 0;
-    int index = 0;
-
-    //fgets(&w, WORD, stdin);
-    scanf("%s\n", w);
-    while (w[index] != '\0')
-    {
-        index++;
-        numOfLetters++;
-    }
-    return numOfLetters;
+	int i = 0;
+	for(i=0; i<WORD; i++)
+	{
+		scanf("%c",&w[i]);
+		
+		if(w[i] == '\t' || w[i] == ' ' || w[i] == EOF || w[i] == '\n' || w[i] == '\r')
+		{
+			w[i]='\0';
+			break;
+		}
+	}
+	
+	if(i == WORD)
+	{
+		w[WORD-1] = '\0';
+	}
+	
+	//printf("test::::::::::&&&&&&&&&&&&&&&&endofword");
+    return i;
 }
 
 int substring(char* str1, char* str2)
 {
-    //remember to check if word ends with \n
-
     if (strstr(str1, str2) != NULL || strstr(str2, str1) != NULL) {
         return 1;
     }
 
-
+	
     return 0;
 }
 
@@ -118,41 +134,48 @@ int similar(char* s, char* t, int n)
 
 void print_lines(char* str)
 {
-    char line[LINE];
-	int flag=0;
-    while (getLine(line) != 0)
+    char line[LINE] = {0};
+	
+	//printf("test::::::::::BEFORE_READING_LINE\n");
+    while (getLine(line) != LINE)
     {
-        if (substring(line, str))
-        {
-			if(flag)
-			{
-				printf("\n");
-			}
+		//printf("test::::::::::%s:::::::%s:::::::%d:::eof?%c:::s?%c:\n", line,str,getLine(line),line[strlen(line-1)],line[0]);
+		if(line[strlen(line-1)] != EOF && line[0]!='\n')
+		{
 			
-			line[strcspn(line, "\n")] = 0;
-            printf("%s", line);
-			flag = 1;
-        }
+			if (substring(line, str) == 1)
+			{
+				//printf("test::::::::::&&&&&&&&&&&&&&&&\n");
+				//printf("test::::::::::%s", line);
+				//printf("test::::::::::$$$$$$$$$$$$$$$$$$$");
+
+				printf("%s\n", line);
+
+			}
+		}
+		else
+		{
+			break;
+		}
     }
+	
+	
+	//printf("test::::::::::&&&&&&&&&&&&&&&&");
 }
 
 void print_similar_words(char* str)
 {
-    char word[WORD];
-	int flag=0;
-    while (getWord(word) != 0)
+    char word[WORD] = {0};
+    while (getWord(word) != 30)
     {
-        if (similar(str, word,1))
-        {
-			if(flag)
-			{
-				printf("\n");
-			}
-			
-			word[strcspn(word, "\n")] = 0;
-            printf("%s", word);
-			flag = 1;
+		//printf("test::::::::::%s:::::similar?%d:::::::", word, similar(str, word,1));
+        if (similar(str, word,1) == 1)
+        {			
+			//printf("PRINT$$$");
+			//word[strcspn(word, "\n")] = 0;
+            printf("%s\n", word);
         }
     }
-
+	
+	//printf("&&&&&&&&&&&&&&&&");
 }
