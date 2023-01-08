@@ -1,11 +1,12 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 
 #define LINE 256
 #define WORD 30
 
-int getline(char s[]);
-int getword(char w[]);
+int getLine(char s[]);
+int getWord(char w[]);
 int substring(char* str1, char* str2);
 int similar(char* s, char* t, int n);
 void print_lines(char* str);
@@ -16,51 +17,53 @@ int main()
 {
     char choise;
     char input[WORD] = { 0 };
+    getWord(input);
 
-    scanf("%c\n", &choise);
+    scanf("%c\n",&choise);
 
     if (choise == 'a')
     {
-        print_lines(&input);
+        print_lines(input);
     }
     else if (choise == 'b')
     {
-        print_similar_words(&input);
+        print_similar_words(input);
     }
 
     return 0;
 }
 
-int getline(char s[])
+int getLine(char s[])
 {
 
     int numOfLetters = 0;
     int index = 0;
+    size_t len = LINE;
+    getline(&s, &len , stdin);
 
-    gets(s, sizeof(LINE), stdin);
-
-    while (s[index] != NULL)
+    while (s[index] != '\n')
     {
         index++;
         numOfLetters++;
     }
+
+
 
     return numOfLetters;
 }
 
-int getword(char w[])
+int getWord(char w[])
 {
     int numOfLetters = 0;
     int index = 0;
 
-    scanf("%s", w);
-
-    while (w[index] != NULL)
+    //fgets(&w, WORD, stdin);
+    scanf("%s\n", w);
+    while (w[index] != '\0')
     {
         index++;
         numOfLetters++;
     }
-
     return numOfLetters;
 }
 
@@ -117,9 +120,9 @@ void print_lines(char* str)
 {
     char line[LINE];
 
-    while (getline(&line) != 0)
+    while (getLine(line) != 0)
     {
-        if (substring(&line, str))
+        if (substring(line, str))
         {
             printf("%s", line);
         }
@@ -130,9 +133,9 @@ void print_similar_words(char* str)
 {
     char word[WORD];
 
-    while (getword(&word) != 0)
+    while (getWord(word) != 0)
     {
-        if (similar(str, &word,1))
+        if (similar(str, word,1))
         {
             printf("%s", word);
         }
